@@ -67,11 +67,10 @@ app.post(
   //   { name: "ebookfile", maxCount: 1 },
   //   { name: "ebookcover", maxCount: 1 },
   // ]),
-  upload.single("ebookfile"),
   (req, res) => {
     let filename = "";
     if (!isEmpty(req.files)) {
-      let file = req.files.ebookfile;
+      let file = req.files.file;
       filename = Date.now() + "-" + file.name;
     }
     cloudinary.uploader.upload(
