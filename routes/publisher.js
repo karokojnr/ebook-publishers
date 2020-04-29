@@ -11,7 +11,7 @@ const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 const { isEmpty, uploadDir } = require("../helpers/upload-helper");
 
 let errors = [];
-const cloudinary = require("cloudinary").v2;
+const cloudinary = require("cloudinary");
 cloudinary.config({
   cloud_name: "karokojnr",
   api_key: "346784416385434",
@@ -73,33 +73,36 @@ app.post(
       let file = req.files.file;
       filename = Date.now() + "-" + file.name;
     }
-    cloudinary.uploader.upload(req.file.file, (err, resultDoc) => {
-      if (err) return err;
-      let ebook = new Ebook(req.body);
-      const name = req.user.firstname;
-      ebook.ebookfile = resultDocurl;
-      ebook.publisherId = `${req.user._id}`;
-      ebook.publisher = name;
-      if (!req.body) {
-        errors.push({ msg: "Please enter all fields" });
-      }
+    cloudinary.uploader.upload(
+      req.files.file.tempFilePath,
+      (err, resultDoc) => {
+        if (err) return err;
+        let ebook = new Ebook(req.body);
+        const name = req.user.firstname;
+        ebook.ebookfile = resultDocurl;
+        ebook.publisherId = `${req.user._id}`;
+        ebook.publisher = name;
+        if (!req.body) {
+          errors.push({ msg: "Please enter all fields" });
+        }
 
-      ebook
-        .save()
-        .then((savedEbook) => {
-          if (!ebook) {
-            res.render("add-ebook", {
-              errors,
-              failureFlash: true,
-            });
-          }
-          req.flash("success_msg", "eBook saved");
-          res.redirect("/");
-        })
-        .catch((err) => {
-          throw err;
-        });
-    });
+        ebook
+          .save()
+          .then((savedEbook) => {
+            if (!ebook) {
+              res.render("add-ebook", {
+                errors,
+                failureFlash: true,
+              });
+            }
+            req.flash("success_msg", "eBook saved");
+            res.redirect("/");
+          })
+          .catch((err) => {
+            throw err;
+          });
+      }
+    );
   }
 );
 
