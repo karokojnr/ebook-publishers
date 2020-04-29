@@ -14,6 +14,10 @@ module.exports = function (passport) {
           return done(null, false, {
             message: "That email is not registered",
           });
+        } else if (user.isPublisher === "NO") {
+          return done(null, false, {
+            message: "Your account has been suspended!",
+          });
         }
 
         // Match password

@@ -43,6 +43,9 @@
                             <% for (let ebook of ebooks) { %>
                             <article class="card product-item">
                                 <header class="card__header">
+                                    <strong>
+                                        <h6 class="product__title text-danger">Approved: <%= ebook.isApproved %> </h6>
+                                    </strong>
                                     <h1 class="product__title">
                                         <%= ebook.title %>
                                     </h1>
