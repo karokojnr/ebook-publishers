@@ -3,14 +3,18 @@ const path = require("path");
 const app = express();
 const Ebook = require("../models/Ebook");
 const crypto = require("crypto");
-const im = require("imagemagick");
 
 const authController = require("../controllers/authController");
 const homeController = require("../controllers/homeController");
 const ebookController = require("../controllers/ebookController");
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
-const { uploadEbook } = require("../config/ebookUpload");
 let errors = [];
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: "karokojnr",
+  api_key: "346784416385434",
+  api_secret: "oinDoqFA3NRMY66lPMV-M5NOCgQ",
+});
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -63,30 +67,33 @@ app.post(
   // ]),
   upload.single("ebookfile"),
   (req, res) => {
-    let ebook = new Ebook(req.body);
-    const name = req.user.firstname;
-    ebook.ebookfile = `${req.file.filename}`;
-    ebook.publisherId = `${req.user._id}`;
-    ebook.publisher = name;
-    if (!req.body) {
-      errors.push({ msg: "Please enter all fields" });
-    }
+    cloudinary.uploader.upload(req.file.filename, (err, resultImage) => {
+      if (err) return err;
+      let ebook = new Ebook(req.body);
+      const name = req.user.firstname;
+      ebook.ebookfile = resultImage.url;
+      ebook.publisherId = `${req.user._id}`;
+      ebook.publisher = name;
+      if (!req.body) {
+        errors.push({ msg: "Please enter all fields" });
+      }
 
-    ebook
-      .save()
-      .then((savedEbook) => {
-        if (!ebook) {
-          res.render("add-ebook", {
-            errors,
-            failureFlash: true,
-          });
-        }
-        req.flash("success_msg", "eBook saved");
-        res.redirect("/");
-      })
-      .catch((err) => {
-        throw err;
-      });
+      ebook
+        .save()
+        .then((savedEbook) => {
+          if (!ebook) {
+            res.render("add-ebook", {
+              errors,
+              failureFlash: true,
+            });
+          }
+          req.flash("success_msg", "eBook saved");
+          res.redirect("/");
+        })
+        .catch((err) => {
+          throw err;
+        });
+    });
   }
 );
 
