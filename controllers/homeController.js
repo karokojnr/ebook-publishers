@@ -1,8 +1,4 @@
 const Ebook = require("../models/Ebook");
-var pdfjsLib = require("pdfjs-dist/build/pdf");
-var Canvas = require("canvas");
-var assert = require("assert").strict;
-var fs = require("fs");
 
 exports.getAllEbooks = (req, res) => {
   Ebook.find()

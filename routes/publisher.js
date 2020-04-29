@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const Ebook = require("../models/Ebook");
-const Publisher = require("../models/Publisher");
 const crypto = require("crypto");
 const im = require("imagemagick");
 

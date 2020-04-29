@@ -1,7 +1,5 @@
-const express = require("express");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-// Load Publisher model
 const Publisher = require("../models/Publisher");
 
 exports.getLogin = (req, res) => {
