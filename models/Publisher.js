@@ -22,8 +22,8 @@ const PublisherSchema = new mongoose.Schema({
     required: true,
   },
   isPublisher: {
-    type: Boolean,
-    default: true,
+    type: String,
+    default: "YES",
   },
   date: {
     type: Date,
