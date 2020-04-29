@@ -66,9 +66,11 @@ app.post(
     let ebook = new Ebook(req.body);
     ebook.ebookfile = `${req.file.filename}`;
     ebook.publisherId = `${req.user._id}`;
+    ebook.publisher = `${req.user.name}`;
     if (!req.body) {
       errors.push({ msg: "Please enter all fields" });
     }
+
     ebook
       .save()
       .then((savedEbook) => {

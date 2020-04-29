@@ -23,6 +23,14 @@ const EbookSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Publisher",
     },
+    publisher: {
+      type: String,
+      required: true,
+    },
+    visible: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
