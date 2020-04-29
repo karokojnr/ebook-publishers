@@ -11,9 +11,9 @@ const EbookSchema = new mongoose.Schema(
         "https://cdn.pixabay.com/photo/2013/07/13/13/42/tux-161439__340.png",
       // required: true,
     },
-    file: {
+    ebookfile: {
       type: String,
-      required: true,
+      required: true
     },
     description: {
       type: String,
