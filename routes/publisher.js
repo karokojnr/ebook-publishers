@@ -64,9 +64,10 @@ app.post(
   upload.single("ebookfile"),
   (req, res) => {
     let ebook = new Ebook(req.body);
+    const name = req.user.firstname;
     ebook.ebookfile = `${req.file.filename}`;
     ebook.publisherId = `${req.user._id}`;
-    ebook.publisher = `${req.user.name}`;
+    ebook.publisher = name;
     if (!req.body) {
       errors.push({ msg: "Please enter all fields" });
     }
