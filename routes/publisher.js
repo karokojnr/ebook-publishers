@@ -67,33 +67,41 @@ app.post(
   // ]),
   upload.single("ebookfile"),
   (req, res) => {
-    cloudinary.uploader.upload(req.file.filename, (err, resultImage) => {
-      if (err) return err;
-      let ebook = new Ebook(req.body);
-      const name = req.user.firstname;
-      ebook.ebookfile = resultImage.url;
-      ebook.publisherId = `${req.user._id}`;
-      ebook.publisher = name;
-      if (!req.body) {
-        errors.push({ msg: "Please enter all fields" });
-      }
+    let filename = "";
+    if (!isEmpty(req.files)) {
+      let file = req.files.file;
+      filename = Date.now() + "-" + file.name;
+    }
+    cloudinary.uploader.upload(
+      req.files.file.tempFilePath,
+      (err, resultImage) => {
+        if (err) return err;
+        let ebook = new Ebook(req.body);
+        const name = req.user.firstname;
+        ebook.ebookfile = resultImage.url;
+        ebook.publisherId = `${req.user._id}`;
+        ebook.publisher = name;
+        if (!req.body) {
+          errors.push({ msg: "Please enter all fields" });
+        }
 
-      ebook
-        .save()
-        .then((savedEbook) => {
-          if (!ebook) {
-            res.render("add-ebook", {
-              errors,
-              failureFlash: true,
-            });
-          }
-          req.flash("success_msg", "eBook saved");
-          res.redirect("/");
-        })
-        .catch((err) => {
-          throw err;
-        });
-    });
+        ebook
+          .save()
+          .then((savedEbook) => {
+            if (!ebook) {
+              res.render("add-ebook", {
+                errors,
+                failureFlash: true,
+              });
+            }
+            req.flash("success_msg", "eBook saved");
+            res.redirect("/");
+          })
+          .catch((err) => {
+            throw err;
+          });
+      }
+    );
   }
 );
 
