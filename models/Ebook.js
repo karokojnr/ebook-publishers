@@ -13,7 +13,7 @@ const EbookSchema = new mongoose.Schema(
     },
     ebookfile: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
@@ -27,10 +27,11 @@ const EbookSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    visible: {
-      type: Boolean,
-      default: false,
+    isApproved: {
+      type: String,
+      default: "NO",
     },
+
   },
   { timestamps: true }
 );
