@@ -79,7 +79,7 @@ app.post(
           });
         }
         req.flash("success_msg", "eBook saved");
-        res.redirect("/publisher");
+        res.redirect("/");
       })
       .catch((err) => {
         throw err;
