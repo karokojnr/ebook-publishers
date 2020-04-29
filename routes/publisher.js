@@ -1,0 +1,91 @@
+const express = require("express");
+const path = require("path");
+const app = express();
+const Ebook = require("../models/Ebook");
+const Publisher = require("../models/Publisher");
+const crypto = require("crypto");
+const im = require("imagemagick");
+
+const authController = require("../controllers/authController");
+const homeController = require("../controllers/homeController");
+const ebookController = require("../controllers/ebookController");
+const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
+const { uploadEbook } = require("../config/ebookUpload");
+let errors = [];
+
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: "public/images/uploads/ebooks",
+  filename: function (req, file, cb) {
+    crypto.pseudoRandomBytes(16, function (err, raw) {
+      if (err) return cb(err);
+
+      cb(null, raw.toString("hex") + path.extname(file.originalname));
+    });
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if (ext !== ".pdf") {
+      return callback(new Error("Only images are allowed"));
+    }
+    callback(null, true);
+  },
+  // limits: {
+  //   fileSize: 1024 * 1024 * 5,
+  // },
+  // fileFilter: fileFilter,
+});
+app.get("/allebooks", ensureAuthenticated, homeController.getAllEbooks);
+app.get("/ebook/:id", ensureAuthenticated, homeController.getEbook);
+
+app.get("/", ensureAuthenticated, homeController.getHome);
+app.get("/login", forwardAuthenticated, authController.getLogin);
+app.get("/register", forwardAuthenticated, authController.getRegister);
+app.get("/add-ebook", ensureAuthenticated, ebookController.getAddEbook);
+app.get(
+  "/publisher-ebooks",
+  ensureAuthenticated,
+  homeController.getPublisherEbooks
+);
+app.get("/logout", authController.getLogout);
+app.post("/login", authController.postLogin);
+app.post("/register", authController.postRegister);
+
+app.post(
+  "/add-ebook",
+  ensureAuthenticated,
+  // upload.fields([
+  //   { name: "ebookfile", maxCount: 1 },
+  //   { name: "ebookcover", maxCount: 1 },
+  // ]),
+  upload.single("ebookfile"),
+  (req, res) => {
+    let ebook = new Ebook(req.body);
+    ebook.ebookfile = `${req.file.filename}`;
+    ebook.publisherId = `${req.user._id}`;
+    if (!req.body) {
+      errors.push({ msg: "Please enter all fields" });
+    }
+    ebook
+      .save()
+      .then((savedEbook) => {
+        if (!ebook) {
+          res.render("add-ebook", {
+            errors,
+            failureFlash: true,
+          });
+        }
+        req.flash("success_msg", "eBook saved");
+        res.redirect("/publisher");
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+);
+
+module.exports = app;
