@@ -74,7 +74,7 @@ app.post(
       filename = Date.now() + "-" + file.name;
     }
     cloudinary.uploader.upload(
-      req.files.file.tempFilePath,
+      req.file.tempFilePath,
       (err, resultDoc) => {
         if (err) return err;
         let ebook = new Ebook(req.body);
