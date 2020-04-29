@@ -8,6 +8,8 @@ const authController = require("../controllers/authController");
 const homeController = require("../controllers/homeController");
 const ebookController = require("../controllers/ebookController");
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
+const { isEmpty, uploadDir } = require("../helpers/upload-helper");
+
 let errors = [];
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
