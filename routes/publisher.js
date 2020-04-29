@@ -71,11 +71,11 @@ app.post(
   (req, res) => {
     let filename = "";
     if (!isEmpty(req.files)) {
-      let file = req.files.file;
+      let file = req.files.ebookfile;
       filename = Date.now() + "-" + file.name;
     }
     cloudinary.uploader.upload(
-      req.files.file.tempFilePath,
+      req.files.ebookfile.tempFilePath,
       (err, resultImage) => {
         if (err) return err;
         let ebook = new Ebook(req.body);
