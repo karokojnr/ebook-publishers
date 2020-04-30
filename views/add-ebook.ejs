@@ -20,9 +20,8 @@
                 <div class="container-fluid">
 
 
-                    <h1>Create post</h1>
+                    <h1>Create eBook</h1>
 
-                    <!-- <div class="alert alert-danger"></div> -->
                     <%- include ("./partials/messages") %>
                     <form action="/add-ebook" method="post" enctype="multipart/form-data">
                         <div class="form-group">
@@ -30,13 +29,10 @@
                             <input required name="title" type="text" class="form-control" id="title"
                                 placeholder="Enter title">
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="ebookcover">Ebook Cover Image</label>
-                            <input type="file" name="ebookcover" class="form-control">
-                        </div> -->
+
 
                         <div class="form-group">
-                            <label for="ebookfile" class="btn-2">Ebook Upload</label>
+                            <label for="ebookfile" class="btn-2">Ebook Upload(PDF files only)</label>
                             <input type="file" name="ebookfile" class="form-control" size="60" id="ebookfile">
                         </div>
 

@@ -48,7 +48,7 @@ exports.postRegister = (req, res) => {
   }
 
   if (errors.length > 0) {
-    res.render("publisher/register", {
+    res.render("register", {
       errors,
       firstname,
       lastname,

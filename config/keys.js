@@ -1,4 +1,4 @@
 module.exports = {
   MongoURI:
-    "mongodb+srv://karokojnr:karokojnr@cluster0-ubthk.gcp.mongodb.net/ebook?retryWrites=true&w=majority",
+    "mongodb+srv://zim247:zim247@cluster0-djlre.gcp.mongodb.net/ebooks?retryWrites=true&w=majority",
 };
