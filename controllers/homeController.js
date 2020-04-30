@@ -46,7 +46,6 @@ exports.getPublisherEbooks = (req, res) => {
         pageTitle: "Publisher eBooks",
         name: req.user.firstname,
         fullname: req.user.firstname + " " + "" + req.user.lastname,
-
       });
     })
     .catch((err) => {
@@ -62,7 +61,6 @@ exports.getEbook = (req, res) => {
         ebook: ebookPath,
         name: req.user.firstname,
         fullname: req.user.firstname + " " + "" + req.user.lastname,
-
       });
     })
     .catch((err) => {

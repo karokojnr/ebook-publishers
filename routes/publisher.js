@@ -11,12 +11,11 @@ const homeController = require("../controllers/homeController");
 const ebookController = require("../controllers/ebookController");
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 
-let errors = [];
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
-  cloud_name: "dg4ew6vaz",
-  api_key: "397631879367488",
-  api_secret: "lEEJ4BcMiEUekYBrCT3IZ88iZGE",
+  cloud_name: "karokojnr",
+  api_key: "346784416385434",
+  api_secret: "oinDoqFA3NRMY66lPMV-M5NOCgQ",
 });
 
 app.get("/allebooks", ensureAuthenticated, homeController.getAllEbooks);
