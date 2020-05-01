@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const {Storage} = require("@google-cloud/storage")
 const app = express();
 const Ebook = require("../models/Ebook");
 
@@ -11,11 +12,14 @@ const homeController = require("../controllers/homeController");
 const ebookController = require("../controllers/ebookController");
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 
-const cloudinary = require("cloudinary").v2;
+const gc = new Storage({
+  keyFilename: path.join(__dirname,"./journal-233d7-fa470f08e7ae.json")
+})
+const cloudinary = require("cloudinary");
 cloudinary.config({
-  cloud_name: "karokojnr",
-  api_key: "346784416385434",
-  api_secret: "oinDoqFA3NRMY66lPMV-M5NOCgQ",
+  cloud_name: "zimnews",
+  api_key: "397631879367488",
+  api_secret: "lEEJ4BcMiEUekYBrCT3IZ88iZGE",
 });
 
 app.get("/allebooks", ensureAuthenticated, homeController.getAllEbooks);

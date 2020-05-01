@@ -1,0 +1,9 @@
+AWS Security Key Access Credentials:
+Access Key ID:
+AKIAIC62OPZGVLJKWTLA
+Secret Access Key:
+PUGIZuiHAi5jUcNDCarsPs3hirpsNZVwyfK3GlAW
+
+
+artifacts.journal-233d7.appspot.com
+
