@@ -17,9 +17,9 @@ const gc = new Storage({
 })
 const cloudinary = require("cloudinary");
 cloudinary.config({
-  cloud_name: "zimnews",
-  api_key: "397631879367488",
-  api_secret: "lEEJ4BcMiEUekYBrCT3IZ88iZGE",
+  cloud_name: CLOUD_NAME,
+  api_key: API_KEY,
+  api_secret: API_SECRET,
 });
 
 app.get("/allebooks", ensureAuthenticated, homeController.getAllEbooks);
